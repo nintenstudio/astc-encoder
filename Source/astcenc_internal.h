@@ -2169,8 +2169,10 @@ T* aligned_malloc(size_t size, size_t align)
 
 #if defined(_WIN32)
 	ptr = _aligned_malloc(size, align);
-#else
+#elif defined(__unix__)
 	error = posix_memalign(&ptr, align, size);
+#else
+	ptr = aligned_alloc(size, align);
 #endif
 
 	if (error || (!ptr))
